@@ -29,7 +29,8 @@ class MovingDotEnv(gym.Env):
         # environment setup
         self.observation_space = spaces.Box(low=0,
                                             high=255,
-                                            shape=(210, 160, 3))
+                                            shape=(210, 160, 3),
+                                            dtype=np.uint8)
         self.centre = np.array([80, 105])
         self.viewer = None
 
@@ -51,7 +52,7 @@ class MovingDotEnv(gym.Env):
             self.pos = [0, 0]
         self.steps = 0
         ob = self._get_ob()
-        return ob
+        return ob, {}
 
     # This is important because for e.g. A3C each worker should be exploring
     # the environment differently, therefore seeds the random number generator
