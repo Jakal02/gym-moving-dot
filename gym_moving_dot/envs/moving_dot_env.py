@@ -44,8 +44,8 @@ class MovingDotEnv(gym.Env):
 
     def reset(self):
         if self.random_start:
-            x = self.np_random.randint(low=0, high=160)
-            y = self.np_random.randint(low=0, high=210)
+            x = self.np_random.integers(low=0, high=160)
+            y = self.np_random.integers(low=0, high=210)
             self.pos = [x, y]
         else:
             self.pos = [0, 0]
