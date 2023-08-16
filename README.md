@@ -45,7 +45,7 @@ expect your graphs to look something like:
 
 ## Installation
 
-`pip install --user git+https://github.com/mrahtz/gym-moving-dot`
+`pip install --user git+https://github.com/jakal02/gym-moving-dot`
 
 ## Dependencies
 
