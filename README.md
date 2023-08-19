@@ -1,7 +1,9 @@
 # gym-moving-dot
 
-A simple environment for OpenAI gym consisting of a white dot moving around in
-a black square, designed as a simple test environment for reinforcement
+A reworked version of the gym-moving-dot environment created by mrahtz to support migration from gym to gymnasium.
+--
+A simple Farama Foundation gymasium environment consisting of a white dot moving in a black
+square, designed as a simple test environment for reinforcement
 learning experiments.
 
 ![](screenshot.gif)
@@ -17,15 +19,18 @@ Possible actions are:
     * 2: move right
     * 3: move up
     * 4: move left
+    * The step_size is configurable, defaults to 1
 - Continuous `action_space`
     * Action: 1 x 2 vector for [move_on_x, move_on_y]
-    * Range: -1 <= move_on_x <= 1, -1 <= move_on_y <= 1
+    * Range: low <= move_on_x <= high, low <= move_on_y <= high  
+      low and high default to -1 and 1 respectively
     * Rules
         ```shell
         # Rules on executing an action
-        new_x = original_x_pos + 1 if move_on_x >= threshold else original_x_pos - 1
-        new_y = original_y_pos + 1 if move_on_y >= threshold else original_y_pos - 1
+        new_x = original_x_pos + step_size if move_on_x >= threshold else original_x_pos - step_size
+        new_y = original_y_pos + step_size if move_on_y >= threshold else original_y_pos - step_size
         ```
+    * The step size is configurable, defaults to 1
 
 Rewards are given based on how far the dot is from the centre.
 * If the dot moves closer to the centre, it receives reward +1.
@@ -80,6 +85,9 @@ for env_name in ENVS:
 ```
 
 ## Update
+- 8/19/2023:
+    - update to be compatible with 0.29 version of gymnasium
+    - human rendering done using pygame
 - 1/11/2019:
     - update to be compatible with the latest gym package
     - add the continuous `action_space` version

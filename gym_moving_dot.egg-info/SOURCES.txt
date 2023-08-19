@@ -1,0 +1,12 @@
+README.md
+setup.py
+gym_moving_dot/__init__.py
+gym_moving_dot.egg-info/PKG-INFO
+gym_moving_dot.egg-info/SOURCES.txt
+gym_moving_dot.egg-info/dependency_links.txt
+gym_moving_dot.egg-info/requires.txt
+gym_moving_dot.egg-info/top_level.txt
+gym_moving_dot/envs/__init__.py
+gym_moving_dot/envs/moving_dot_env.py
+gym_moving_dot/envs/moving_dot_env_test.py
+gym_moving_dot/envs/moving_dot_env_v2.py
