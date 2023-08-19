@@ -25,7 +25,7 @@ class MovingDotEnv(gym.Env):
         random_start: if True, dot randomly starts on canvas, or in top left if False
         max_steps: maximum number of steps in an episode before truncation occurs
     """
-    metadata = {'render_modes': ['human','rgb_array'], 'render_fps': 8}
+    metadata = {'render_modes': ['human','rgb_array'], 'render_fps': 10}
 
     def __init__(self, render_mode='human', random_start=True, max_steps=1000):
         """Initialize parent dot environment."""
