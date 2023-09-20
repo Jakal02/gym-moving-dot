@@ -10,10 +10,10 @@ import numpy as np
 import pygame
 
 
-class ALE(object):
-    """Class to support atari_wrappers in OpenAI baselines."""
-    def __init__(self):
-        self.lives = lambda: 0
+# class ALE(object):
+#     """Class to support atari_wrappers in OpenAI baselines."""
+#     def __init__(self):
+#         self.lives = lambda: 0
 
 
 class MovingDotEnv(gym.Env):
@@ -23,17 +23,17 @@ class MovingDotEnv(gym.Env):
     Args:
         render_mode: chose environemnt render mode - human or rgb_array
         random_start: if True, dot randomly starts on canvas, or in top left if False
-        max_steps: maximum number of steps in an episode before truncation occurs
+        max_episode_steps: maximum number of steps in an episode before truncation occurs
     """
     metadata = {'render_modes': ['human','rgb_array'], 'render_fps': 10}
 
-    def __init__(self, render_mode='human', random_start=True, max_steps=1000):
+    def __init__(self, render_mode='human', random_start=True, max_episode_steps=500):
         """Initialize parent dot environment."""
         super(gym.Env, self).__init__()
 
         # Environment parameters
         self.random_start = random_start
-        self.max_steps = max_steps
+        self.max_steps = max_episode_steps
         self.dot_size = (4, 4)
         self.window_width = 210
         self.window_height = 160
@@ -42,10 +42,14 @@ class MovingDotEnv(gym.Env):
         self.render_mode = render_mode
 
         # environment setup
-        self.observation_space = spaces.Box(low=0,
-                                            high=255,
-                                            shape=(self.window_height, self.window_width, 3),
-                                            dtype=np.uint8)
+        self.observation_space = spaces.Box(low=np.array((0,0)),
+                                            high=np.array((self.window_width, self.window_height)),
+                                            shape=(2,),
+                                            dtype=np.int64)
+        # self.observation_space = spaces.Box(low=0,
+        #                                     high=255,
+        #                                     shape=(self.window_height, self.window_width, 3),
+        #                                     dtype=np.uint8)
         self.center = np.array([int(self.window_width / 2), int(self.window_height / 2)])
         
         # render setup
@@ -60,7 +64,7 @@ class MovingDotEnv(gym.Env):
         self.clock = None
 
         # atari_wrapper compatability
-        self.ale = ALE()
+        # self.ale = ALE()
 
 
     def reset(self, options={}, seed=None):
@@ -158,25 +162,21 @@ class MovingDotEnv(gym.Env):
             return np.transpose(
                 np.array(pygame.surfarray.pixels3d(canvas)), axes=(1, 0, 2)
             )
-        
-    
-    def get_action_meanings(self):
-        return ['NOOP', 'DOWN', 'RIGHT', 'UP', 'LEFT']
-    
+
     def _update_pos(self, action):
         """ subclass is supposed to implement the logic
             to update the frame given an action at t. """
         raise NotImplementedError
-    
+
     def _get_ob(self):
-        """Return environment reflecting dot's position."""
-        ob = np.zeros((self.window_height, self.window_width, 3), dtype=np.uint8)
-        x = self.pos[0]
-        y = self.pos[1]
-        w = self.dot_size[0]
-        h = self.dot_size[1]
-        ob[y - h:y + h, x - w:x + w, :] = 255
-        return ob
+        """Return position of dot."""
+        # ob = np.zeros((self.window_height, self.window_width, 3), dtype=np.uint8)
+        # x = self.pos[0]
+        # y = self.pos[1]
+        # w = self.dot_size[0]
+        # h = self.dot_size[1]
+        # ob[y - h:y + h, x - w:x + w, :] = 255
+        return np.array(self.pos)
     
     def _get_info(self):
         return {"distance": np.linalg.norm(self.pos - self.center)}
